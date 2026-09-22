@@ -1,0 +1,6 @@
+{
+  "name": "TechZone - Electronics Store",
+  "description": "Modern and professional online electronics store featuring next-generation smartphones, laptops, monitors, gaming gear, and tech accessories.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
