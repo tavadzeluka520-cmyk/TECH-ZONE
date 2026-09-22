@@ -98,8 +98,8 @@ export const TopCountryBar: React.FC<TopCountryBarProps> = ({
           <button
             id="topbar-country-selector-btn"
             onClick={openCountryModal}
-            className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-800 hover:border-[#00FF66]/50 text-white transition-all cursor-pointer group"
-            title="Change Shipping Country & Currency"
+            className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-850 hover:border-[#00FF66]/60 text-white transition-all cursor-pointer group shadow-[0_0_8px_rgba(0,0,0,0.4)]"
+            title="Select Shipping Country & Currency"
           >
             <span className="text-xs">{currentCountry.flag}</span>
             <span className="font-bold text-zinc-200 group-hover:text-[#00FF66]">
@@ -108,16 +108,19 @@ export const TopCountryBar: React.FC<TopCountryBarProps> = ({
             <ChevronDown className="w-3 h-3 text-zinc-500 group-hover:text-white" />
           </button>
 
-          {/* Language selector button */}
+          {/* All Languages selector button */}
           <button
             id="topbar-language-selector-btn"
             onClick={openCountryModal}
-            className="hidden sm:flex items-center gap-1.5 px-2 py-1 rounded-lg bg-zinc-900/90 hover:bg-zinc-800 border border-zinc-800 hover:border-[#00FF66]/50 text-white transition-all cursor-pointer group"
-            title="Change Interface Language"
+            className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-zinc-900/90 hover:bg-zinc-800 border border-[#00FF66]/30 hover:border-[#00FF66] text-white transition-all cursor-pointer group shadow-[0_0_10px_rgba(0,255,102,0.15)]"
+            title="Select Interface Language (All Languages Supported)"
           >
-            <Globe2 className="w-3.5 h-3.5 text-[#00FF66]" />
+            <Globe2 className="w-3.5 h-3.5 text-[#00FF66] group-hover:rotate-45 transition-transform" />
             <span className="font-bold text-zinc-200 group-hover:text-[#00FF66]">
               {currentLanguage.nativeName}
+            </span>
+            <span className="hidden xs:inline text-[9px] font-mono px-1 py-0.2 rounded bg-[#00FF66]/20 text-[#00FF66] font-bold">
+              ALL
             </span>
             <ChevronDown className="w-3 h-3 text-zinc-500 group-hover:text-white" />
           </button>

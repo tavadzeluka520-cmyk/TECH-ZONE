@@ -64,7 +64,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full backdrop-blur-md bg-black/95 border-b border-[#00FF66]/20 text-white transition-all duration-200 shadow-[0_4px_30px_rgba(0,0,0,0.8)]">
+    <nav className="w-full backdrop-blur-md bg-black/95 border-b border-[#00FF66]/20 text-white transition-all duration-200">
       {/* Main Navbar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20 gap-4">
@@ -239,16 +239,16 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               id="navbar-country-language-btn"
               onClick={openCountryModal}
-              className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-zinc-950 border border-zinc-800 hover:border-[#00FF66]/50 text-white text-xs font-mono transition-all cursor-pointer group shadow-[0_0_10px_rgba(0,0,0,0.5)]"
-              title="Change Shipping Country & Language"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-zinc-950 border border-zinc-800 hover:border-[#00FF66]/50 text-white text-xs font-mono transition-all cursor-pointer group shadow-[0_0_10px_rgba(0,0,0,0.5)] shrink-0"
+              title="Change Shipping Country & Language (All Languages Available)"
             >
               <span>{currentCountry.flag}</span>
-              <span className="font-bold text-zinc-300 group-hover:text-[#00FF66]">
+              <span className="font-bold text-zinc-300 group-hover:text-[#00FF66] hidden sm:inline">
                 {currentCountry.currencySymbol}
               </span>
-              <span className="text-zinc-600">/</span>
+              <span className="text-zinc-600 hidden sm:inline">/</span>
               <span className="font-bold text-zinc-300 group-hover:text-[#00FF66]">
-                {currentLanguage.nativeName}
+                {currentLanguage.code.toUpperCase()}
               </span>
               <Globe2 className="w-3.5 h-3.5 text-[#00FF66]" />
             </button>
@@ -427,6 +427,6 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
       )}
 
-    </header>
+    </nav>
   );
 };

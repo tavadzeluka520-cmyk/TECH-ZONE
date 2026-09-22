@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   X, 
   ShieldCheck, 
@@ -106,12 +106,32 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
   onSetCurrentUser,
   onShowToast,
 }) => {
-  const [activeTab, setActiveTab] = useState<'create' | 'manage' | 'analytics' | 'adminProfile'>('create');
+  const [activeTab, setActiveTab] = useState<'create' | 'manage' | 'analytics' | 'adminProfile'>('manage');
   
   // Security check: is the current user Luka Tavadze or authenticated as admin?
   const isSoleAdmin = currentUser?.email.toLowerCase() === SOLE_ADMIN_EMAIL.toLowerCase() || currentUser?.isAdmin === true;
   const [adminPasskey, setAdminPasskey] = useState('');
   const [securityError, setSecurityError] = useState('');
+
+  // Automatically activate Luka Tavadze's root administrator privileges whenever the console is open
+  useEffect(() => {
+    if (isOpen && (!currentUser || currentUser.email.toLowerCase() !== SOLE_ADMIN_EMAIL.toLowerCase() || !currentUser.isAdmin)) {
+      const adminUser: UserProfile = {
+        id: 'usr_sole_admin_luka',
+        name: SOLE_ADMIN_NAME,
+        email: SOLE_ADMIN_EMAIL,
+        avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120&auto=format&fit=crop&q=80',
+        provider: 'google',
+        isGoogleVerified: true,
+        tier: 'Sole Administrator (Root)',
+        points: 99999,
+        joinedDate: 'Jan 2026',
+        isAdmin: true,
+        role: 'admin',
+      };
+      onSetCurrentUser(adminUser);
+    }
+  }, [isOpen, currentUser]);
 
   // Manage tab states
   const [catalogSearch, setCatalogSearch] = useState('');
@@ -363,18 +383,9 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
           </div>
 
           <div className="flex items-center gap-3">
-            {isSoleAdmin ? (
-              <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#00FF66]/15 border border-[#00FF66]/40 text-[#00FF66] text-xs font-mono font-bold">
-                <CheckCircle2 className="w-3.5 h-3.5" /> Sole Admin Active
-              </div>
-            ) : (
-              <button
-                onClick={handleClaimAdmin}
-                className="px-3 py-1.5 bg-[#00FF66] hover:bg-[#00e65c] text-black text-xs font-extrabold rounded-lg shadow-[0_0_15px_rgba(0,255,102,0.4)] cursor-pointer"
-              >
-                Log In As Luka Tavadze
-              </button>
-            )}
+            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#00FF66]/15 border border-[#00FF66]/40 text-[#00FF66] text-xs font-mono font-bold shadow-[0_0_10px_rgba(0,255,102,0.2)]">
+              <CheckCircle2 className="w-3.5 h-3.5" /> Sole Admin Active
+            </div>
 
             <button
               id="close-admin-panel-btn"
@@ -387,64 +398,8 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
           </div>
         </div>
 
-        {/* Administrator Authentication Guard Check */}
-        {!isSoleAdmin ? (
-          <div className="p-8 sm:p-12 text-center max-w-md mx-auto my-auto space-y-6">
-            <div className="w-16 h-16 rounded-2xl bg-zinc-900 border border-[#00FF66]/40 text-[#00FF66] flex items-center justify-center mx-auto shadow-[0_0_30px_rgba(0,255,102,0.2)]">
-              <Lock className="w-8 h-8" />
-            </div>
-
-            <div>
-              <h3 className="text-2xl font-black text-white uppercase tracking-tight">
-                Sole Administrator Terminal
-              </h3>
-              <p className="text-xs text-zinc-400 mt-2">
-                This administrative panel is strictly reserved for the sole administrator:
-              </p>
-              <div className="mt-3 p-3 rounded-xl bg-black border border-[#00FF66]/30 text-xs font-mono text-[#00FF66] flex items-center justify-center gap-2">
-                <ShieldCheck className="w-4 h-4" />
-                <span>{SOLE_ADMIN_NAME} ({SOLE_ADMIN_EMAIL})</span>
-              </div>
-            </div>
-
-            {securityError && (
-              <div className="p-3 rounded-xl bg-red-950/50 border border-red-800 text-xs text-red-300">
-                {securityError}
-              </div>
-            )}
-
-            {/* Quick 1-click Claim for Luka Tavadze */}
-            <div className="space-y-3">
-              <button
-                id="claim-sole-admin-btn"
-                onClick={handleClaimAdmin}
-                className="w-full py-3.5 px-4 bg-[#00FF66] hover:bg-[#00e65c] text-black font-black text-xs uppercase tracking-wider rounded-xl shadow-[0_0_25px_rgba(0,255,102,0.4)] cursor-pointer flex items-center justify-center gap-2 transition-transform active:scale-95"
-              >
-                <ShieldCheck className="w-4 h-4" />
-                <span>Authorize Sole Administrator (Luka Tavadze)</span>
-              </button>
-
-              <form onSubmit={handleVerifyPasskey} className="pt-2 flex gap-2">
-                <input
-                  type="password"
-                  placeholder="Security Key (admin2026)"
-                  value={adminPasskey}
-                  onChange={(e) => setAdminPasskey(e.target.value)}
-                  className="flex-1 bg-black border border-zinc-800 rounded-xl px-3 py-2 text-xs text-white focus:border-[#00FF66] focus:outline-none"
-                />
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-xs font-bold rounded-xl text-white cursor-pointer"
-                >
-                  Verify Key
-                </button>
-              </form>
-            </div>
-          </div>
-        ) : (
-          <>
-            {/* Navigation Tabs */}
-            <div className="flex flex-wrap items-center gap-2 px-6 pt-3 border-b border-zinc-800/80 bg-zinc-950/60">
+        {/* Administrator Navigation Tabs */}
+        <div className="flex flex-wrap items-center gap-2 px-6 pt-3 border-b border-zinc-800/80 bg-zinc-950/60">
               <button
                 onClick={() => { setActiveTab('create'); setEditingProduct(null); }}
                 className={`pb-3 px-3 text-xs sm:text-sm font-bold uppercase tracking-wider transition-all relative cursor-pointer flex items-center gap-2 ${
@@ -1245,8 +1200,6 @@ export const AdminPanelModal: React.FC<AdminPanelModalProps> = ({
               )}
 
             </div>
-          </>
-        )}
 
         {/* Footer */}
         <div className="px-6 py-3.5 border-t border-zinc-850 bg-black/90 flex items-center justify-between text-xs text-zinc-400">

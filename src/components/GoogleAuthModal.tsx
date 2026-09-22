@@ -50,17 +50,13 @@ export const GoogleAuthModal: React.FC<GoogleAuthModalProps> = ({
 
   if (!isOpen) return null;
 
-  // Preset Google Accounts for smooth quick testing & realistic sign-up
+  // Sole Administrator Google Account for instant 1-click verification
   const googleAccounts = [
     {
       name: 'Luka Tavadze',
-      email: 'tavadzeluka520@gmail.com',
+      email: SOLE_ADMIN_EMAIL,
       avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=120&auto=format&fit=crop&q=80',
-    },
-    {
-      name: 'Alex Mercer',
-      email: 'alex.mercer@cybernet.io',
-      avatar: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=120&auto=format&fit=crop&q=80',
+      roleBadge: 'Founder & Sole Administrator (Root)',
     }
   ];
 
@@ -240,7 +236,7 @@ export const GoogleAuthModal: React.FC<GoogleAuthModalProps> = ({
                 <span className="text-[10px] text-[#00FF66] font-mono">OAuth 2.0 Secure</span>
               </div>
 
-              {/* Detected / preset Google accounts */}
+              {/* Detected Sole Administrator Google account */}
               <div className="space-y-2">
                 {googleAccounts.map((acc, idx) => (
                   <button
@@ -248,21 +244,31 @@ export const GoogleAuthModal: React.FC<GoogleAuthModalProps> = ({
                     id={`google-select-acc-${idx}`}
                     type="button"
                     onClick={() => handleGoogleQuickRegister(acc)}
-                    className="w-full flex items-center gap-3 p-2.5 rounded-xl bg-black hover:bg-zinc-900 border border-zinc-800 hover:border-[#00FF66] transition-all text-left cursor-pointer group"
+                    className="w-full flex items-center gap-3 p-3 rounded-xl bg-black hover:bg-zinc-900/90 border border-[#00FF66]/50 hover:border-[#00FF66] shadow-[0_0_15px_rgba(0,255,102,0.15)] transition-all text-left cursor-pointer group"
                   >
-                    <img 
-                      src={acc.avatar} 
-                      alt={acc.name} 
-                      className="w-9 h-9 rounded-full object-cover border border-zinc-700 group-hover:border-[#00FF66]"
-                    />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-xs font-bold text-white group-hover:text-[#00FF66] truncate flex items-center gap-1.5">
-                        {acc.name}
-                        <CheckCircle2 className="w-3.5 h-3.5 text-[#00FF66]" />
-                      </p>
-                      <p className="text-[11px] text-zinc-400 truncate">{acc.email}</p>
+                    <div className="relative">
+                      <img 
+                        src={acc.avatar} 
+                        alt={acc.name} 
+                        className="w-10 h-10 rounded-full object-cover border-2 border-[#00FF66]"
+                      />
+                      <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-[#00FF66] border-2 border-black flex items-center justify-center">
+                        <span className="w-1.5 h-1.5 rounded-full bg-black" />
+                      </span>
                     </div>
-                    <ArrowRight className="w-4 h-4 text-zinc-500 group-hover:text-[#00FF66] group-hover:translate-x-0.5 transition-all" />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <span className="text-xs font-black text-white group-hover:text-[#00FF66]">
+                          {acc.name}
+                        </span>
+                        <span className="text-[10px] font-mono font-black uppercase px-1.5 py-0.2 rounded bg-[#00FF66] text-black">
+                          SOLE ADMIN
+                        </span>
+                      </div>
+                      <p className="text-[11px] font-mono text-[#00FF66] truncate">{acc.email}</p>
+                      <p className="text-[10px] text-zinc-400 font-mono mt-0.5">{acc.roleBadge}</p>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-[#00FF66] group-hover:translate-x-1 transition-transform shrink-0" />
                   </button>
                 ))}
               </div>

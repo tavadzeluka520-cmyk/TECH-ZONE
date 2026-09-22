@@ -292,32 +292,34 @@ export default function App() {
   return (
     <LanguageProvider>
       <div className="min-h-screen bg-black text-zinc-100 flex flex-col font-sans selection:bg-[#00FF66] selection:text-black">
-        {/* Top Localization & Direct Support Ribbon */}
-        <TopCountryBar
-          onOpenAdmin={() => setIsAdminOpen(true)}
-          onOpenAuth={handleOpenAuth}
-          currentUser={currentUser}
-        />
+        {/* Unified Top Sticky Header: Top Country & All Languages Bar + Main Navigation */}
+        <header className="sticky top-0 z-40 w-full shadow-[0_4px_30px_rgba(0,0,0,0.8)]">
+          <TopCountryBar
+            onOpenAdmin={() => setIsAdminOpen(true)}
+            onOpenAuth={handleOpenAuth}
+            currentUser={currentUser}
+          />
 
-        {/* Header / Navbar */}
-        <Navbar
-          cartCount={cartItemCount}
-          onOpenCart={() => setIsCartOpen(true)}
-          activeSection={activeSection}
-          onNavigate={handleNavigate}
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          selectedCategory={selectedCategory}
-          onSelectCategory={(cat) => {
-            setSelectedCategory(cat);
-            handleNavigate('products');
-          }}
-          onOpenAccount={() => setIsAccountOpen(true)}
-          currentUser={currentUser}
-          onOpenAuth={handleOpenAuth}
-          onOpenAdmin={() => setIsAdminOpen(true)}
-          onOpenAi={() => setIsAiModalOpen(true)}
-        />
+          {/* Header / Navbar */}
+          <Navbar
+            cartCount={cartItemCount}
+            onOpenCart={() => setIsCartOpen(true)}
+            activeSection={activeSection}
+            onNavigate={handleNavigate}
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            selectedCategory={selectedCategory}
+            onSelectCategory={(cat) => {
+              setSelectedCategory(cat);
+              handleNavigate('products');
+            }}
+            onOpenAccount={() => setIsAccountOpen(true)}
+            currentUser={currentUser}
+            onOpenAuth={handleOpenAuth}
+            onOpenAdmin={() => setIsAdminOpen(true)}
+            onOpenAi={() => setIsAiModalOpen(true)}
+          />
+        </header>
 
       {/* Main Page Flow */}
       <main className="flex-1">
